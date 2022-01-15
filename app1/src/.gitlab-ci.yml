@@ -1,0 +1,24 @@
+image: docker:stable
+stages:
+  -build
+  -deploy
+build:
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - ls
+    - docker build -t app1 .
+    - docker images
+    - echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
+    - docker tag app1 akpaul1991/ci-app1:001
+    - docker push akpaul1991/ci-app1:001
+deploy:
+  stage: deploy
+  services:
+    - docker:dind
+  image: ictu/sshpass
+  script:
+    - sshpass -p hello ssh -o StrictHostCheking=no root@35.170.79.192 "docker pull akpaul1991/app1:001 && docker stop demo && docker rm demo && docker run -d -p 5000:5000 --name demo akpaul1991/app:001"
+
+

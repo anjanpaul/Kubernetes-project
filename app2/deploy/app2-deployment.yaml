@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app2
+  labels:
+   app: app2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app2
+  template:
+    metadata:
+      labels:
+        app: app2
+    spec:
+      containers:
+      - name: app2
+        image: akpaul1991/app2:0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+<<<<<<< HEAD
+      nodeName: local-cluster-m03
+=======
+      nodeName: local-cluster-m02
+        
+>>>>>>> 8cc7e16 (adding vagrant file)
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2
+  labels:
+    app: app2
+spec:
+  type: NodePort
+  ports:
+    - port: 5000
+      protocol: TCP
+  selector:
+    app: app2
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 8cc7e16 (adding vagrant file)
